@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  *
- * @author Flavio Andrade <onsave.com.br>
+ * @author Flavio Andrade
  */
 @SpringBootApplication
 public class Application {
