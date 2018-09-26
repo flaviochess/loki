@@ -1,9 +1,12 @@
 package com.github.loki.home;
 
-import com.github.loki.server.CreateNewServer;
+import com.github.loki.handler.RequestMockHandler;
+import com.github.loki.response.GetResponse;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jetty.server.Server;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class HomeController {
 
+    @Autowired
+    private GetResponse getResponse;
+    
     @GetMapping
     public ResponseEntity<String> init() throws Exception {
 
+        Integer port = 9898;
+        Server server = new Server(port);
+        server.setHandler(new RequestMockHandler(port, getResponse));
+        
         new Thread(() -> {
             try {
-                CreateNewServer.create(9898);
+                server.start();
+                server.join();
             } catch (Exception ex) {
                 log.error("server jetty fail", ex);
             }

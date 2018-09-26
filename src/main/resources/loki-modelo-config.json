@@ -1,0 +1,19 @@
+{
+    "port": 9898,
+    "context": "authorization",
+    "entries": [
+        {
+            "request": {
+                "method": "GET",
+                "uri": "/loki/test"
+            },
+            "response": {
+                "status": 200,
+                "content": {
+                    "mimeType": "application/json",
+                    "text": "[{\"account\":{\"id\":709918,\"description\":\"Brasil Account\",\"personId\":28333,\"name\":\"Flavio Andrade\",\"model\":\"XPTO\",\"country\":\"BR\",\"enabled\":true},\"profile\":{\"id\":\"ADMIN\",\"name\":\"ADMIN\",\"standard\":true,\"order\":1}}]"
+                }
+            }
+        }
+    ]
+}
