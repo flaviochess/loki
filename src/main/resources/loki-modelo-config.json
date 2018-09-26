@@ -1,6 +1,6 @@
 {
     "port": 9898,
-    "context": "authorization",
+    "context": "myapi",
     "entries": [
         {
             "request": {
