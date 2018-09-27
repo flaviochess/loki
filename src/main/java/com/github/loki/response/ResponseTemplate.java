@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class ResponseConfig implements Serializable {
+public class ResponseTemplate implements Serializable {
     
     @Id
     @GeneratedValue

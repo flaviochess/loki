@@ -9,22 +9,22 @@ import org.springframework.stereotype.Repository;
  * @author Flavio Andrade
  */
 @Repository
-public class GetResponse {
+public class GetResponseTemplate {
     
     @Autowired
-    private ResponseConfigRepository repository;
+    private ResponseTemplateRepository repository;
     
-    public ResponseConfig byPortAndMethodAndUri(Integer port, String method, String uri) {
+    public ResponseTemplate byPortAndMethodAndUri(Integer port, String method, String uri) {
         
-        Optional<ResponseConfig> responseConfig = repository.findByPortAndMethodAndUri(port, method, uri);
+        Optional<ResponseTemplate> responseConfig = repository.findByPortAndMethodAndUri(port, method, uri);
         
         return responseConfig.orElse(response404(port, method));
     }
     
     //TODO: analisar a possibilidade de usar um ErrorHandler para esses casos
-    private ResponseConfig response404(Integer port, String method) {
+    private ResponseTemplate response404(Integer port, String method) {
         
-        ResponseConfig responseConfig = new ResponseConfig();
+        ResponseTemplate responseConfig = new ResponseTemplate();
         
         responseConfig.setPort(port);
         responseConfig.setMethod(method);

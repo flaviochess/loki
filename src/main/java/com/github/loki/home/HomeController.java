@@ -1,11 +1,9 @@
 package com.github.loki.home;
 
 import com.github.loki.handler.RequestMockHandler;
-import com.github.loki.response.GetResponse;
+import com.github.loki.response.GetResponseTemplate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @Autowired
-    private GetResponse getResponse;
+    private GetResponseTemplate getResponse;
 
     @Autowired
     @Qualifier("poolServer")
