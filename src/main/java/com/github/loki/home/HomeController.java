@@ -4,9 +4,12 @@ import com.github.loki.handler.RequestMockHandler;
 import com.github.loki.response.GetResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,22 +26,40 @@ public class HomeController {
 
     @Autowired
     private GetResponse getResponse;
-    
+
+    @Autowired
+    @Qualifier("poolServer")
+    private Map<Integer, Server> poolServer;
+
     @GetMapping
     public ResponseEntity<String> init() throws Exception {
 
         Integer port = 9898;
-        Server server = new Server(port);
-        server.setHandler(new RequestMockHandler(port, getResponse));
         
-        new Thread(() -> {
-            try {
-                server.start();
-                server.join();
-            } catch (Exception ex) {
-                log.error("server jetty fail", ex);
-            }
-        }).start();
+        if(poolServer.containsKey(port)) {
+            log.info("server já registrado");
+        } else {
+        
+            Server server = new Server(port);
+            server.setHandler(new RequestMockHandler(port, getResponse));
+
+            new Thread(() -> {
+                
+                try {
+                    server.start();
+                    //server.join();
+                    log.info("nova thread");
+                    poolServer.put(port, server);
+                    
+                } catch (Exception ex) {
+                    log.error("server jetty fail", ex);
+                }
+                
+            }).run();
+            
+            //server.stop();
+            
+        }
 
         return ResponseEntity.ok("HOME");
     }
