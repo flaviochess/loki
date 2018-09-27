@@ -21,6 +21,7 @@ public class GetResponse {
         return responseConfig.orElse(response404(port, method));
     }
     
+    //TODO: analisar a possibilidade de usar um ErrorHandler para esses casos
     private ResponseConfig response404(Integer port, String method) {
         
         ResponseConfig responseConfig = new ResponseConfig();
