@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +29,7 @@ public class MockController {
         this.stopMockServer = stopMockServer;
     }
     
-    @PostMapping("/start/port/{port}")
+    @PostMapping("/port/{port}/start")
     public void startMockServer(@PathVariable Integer port) {
         
         startMockServer.start(port);
@@ -42,7 +41,7 @@ public class MockController {
         return listMockServer.portStatus();
     }
     
-    @PutMapping("/stop/port/{port}")
+    @PostMapping("/port/{port}/stop")
     public void stopMockServer(@PathVariable Integer port) {
         
         stopMockServer.fromPort(port);
