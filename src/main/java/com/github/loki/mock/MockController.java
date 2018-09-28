@@ -17,33 +17,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("mock")
 public class MockController {
     
-    private final StartMockServer startMock;
+    private final StartMockServer startMockServer;
     
-    private final ListMockServer list;
+    private final ListMockServer listMockServer;
     
-    private final StopMockServer stop;
+    private final StopMockServer stopMockServer;
 
     @Autowired
-    public MockController(StartMockServer start, ListMockServer list, StopMockServer stop) {
-        this.startMock = start;
-        this.list = list;
-        this.stop = stop;
+    public MockController(StartMockServer startMockServer, ListMockServer listMockServer, StopMockServer stopMockServer) {
+        this.startMockServer = startMockServer;
+        this.listMockServer = listMockServer;
+        this.stopMockServer = stopMockServer;
     }
     
     @PostMapping("/start/port/{port}")
     public void startMockServer(@PathVariable Integer port) {
         
-        startMock.start(port);
+        startMockServer.start(port);
     }
     
     @GetMapping("/status")
     public Map<Integer, String> listStatusMockServers() {
         
-        return list.portStatus();
+        return listMockServer.portStatus();
     }
     
     @PutMapping("/stop/port/{port}")
     public void stopMockServer(@PathVariable Integer port) {
         
+        stopMockServer.fromPort(port);
     }
 }

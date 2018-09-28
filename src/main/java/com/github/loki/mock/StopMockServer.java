@@ -37,6 +37,8 @@ public class StopMockServer {
             log.error("error stoping server", ex);
             throw new MockServerException(ex.getMessage());
         }
+        
+        poolServer.remove(port);
 
     }
 }
