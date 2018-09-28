@@ -1,6 +1,5 @@
 package com.github.loki.mock;
 
-import com.github.loki.response.GetResponseTemplate;
 import com.github.loki.response.ResponseTemplateRepository;
 import java.util.Map;
 import java.util.Set;
