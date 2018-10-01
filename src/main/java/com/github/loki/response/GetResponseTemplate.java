@@ -1,8 +1,10 @@
 package com.github.loki.response;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.AntPathMatcher;
 
 /**
  *
@@ -17,6 +19,16 @@ public class GetResponseTemplate {
     public ResponseTemplate byPortAndMethodAndUri(Integer port, String method, String uri) {
         
         Optional<ResponseTemplate> responseConfig = repository.findByPortAndMethodAndUri(port, method, uri);
+        
+        if(responseConfig.isPresent()) {
+           return responseConfig.get();
+        }
+        
+        List<ResponseTemplate> responseTemplates = repository.findByPortAndMethodOrderByIdAsc(port, method);
+        
+        responseConfig = responseTemplates.stream()
+                .filter(template -> new AntPathMatcher().match(template.getUri(), uri))
+                .findFirst();
         
         return responseConfig.orElse(response404(port, method));
     }
