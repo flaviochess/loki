@@ -1,7 +1,7 @@
 package com.github.loki.handler;
 
-import com.github.loki.response.GetResponse;
-import com.github.loki.response.ResponseConfig;
+import com.github.loki.response.GetResponseTemplate;
+import com.github.loki.response.ResponseTemplate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
@@ -24,18 +24,18 @@ public class RequestMockHandler extends AbstractHandler {
     private Integer port;
     
     @NonNull
-    private GetResponse getResponse;
+    private GetResponseTemplate getResponseTemplate;
 
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        ResponseConfig resposConfig = getResponse.byPortAndMethodAndUri(port, request.getMethod(), request.getRequestURI());
+        ResponseTemplate responseTemplate = getResponseTemplate.byPortAndMethodAndUri(port, request.getMethod(), request.getRequestURI());
         
         response.setContentType("application/json; charset=utf-8");
-        response.setStatus(resposConfig.getStatusCode());
+        response.setStatus(responseTemplate.getStatusCode());
 
         PrintWriter out = response.getWriter();
-        out.println(resposConfig.getBody());
+        out.println(responseTemplate.getBody());
         
         baseRequest.setHandled(true);
     }
