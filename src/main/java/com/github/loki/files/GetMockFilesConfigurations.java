@@ -22,7 +22,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class GetMockFilesConfigurations {
     
-    @Value("loki.path.configuration.files")
+    private static final String SLASH = "/";
+    
+    @Value("${loki.path.configuration.files}")
     private String pathConfigurationFiles;
     
     public List<ResponseTemplate> mapToResponseTemplate() {
@@ -36,14 +38,12 @@ public class GetMockFilesConfigurations {
         }
         
         ObjectMapper mapper = new ObjectMapper();
-        
         List<ResponseTemplate> responseTemplates = new ArrayList();
-                
         DirectoryStream<Path> configurationPaths;
         
         try {
             
-            configurationPaths = Files.newDirectoryStream(folder, p -> p.endsWith(".json"));
+            configurationPaths = Files.newDirectoryStream(folder, p -> p.getFileName().toString().endsWith(".json"));
             
         } catch (IOException iOException) {
             
@@ -55,10 +55,12 @@ public class GetMockFilesConfigurations {
         for (Path configurationPath : configurationPaths) {
             
             try {
+                
                 log.info("Tries to read the file {}", configurationPath.getFileName());
                 ConfigurationObject configurationObject = mapper.readValue(configurationPath.toFile(), ConfigurationObject.class);
                 
                 responseTemplates.addAll(convertTo(configurationObject));
+                log.info("File {} OK");
                 
             } catch (IOException iOException) {
                 
@@ -66,6 +68,7 @@ public class GetMockFilesConfigurations {
             }
         }
         
+        log.info("{} response templates found", responseTemplates.size());
         return responseTemplates;
     }
     
@@ -92,7 +95,7 @@ public class GetMockFilesConfigurations {
         
         responseTemplate.setPort(port);
         responseTemplate.setMethod(entry.getRequest().getMethod());
-        responseTemplate.setUri(context + entry.getRequest().getUri());
+        responseTemplate.setUri(SLASH + context + entry.getRequest().getUri());
         
         responseTemplate.setStatusCode(entry.getResponse().getStatus());
         responseTemplate.setBody(entry.getResponse().getContent().getText());

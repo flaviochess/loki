@@ -15,16 +15,19 @@ public class UpdateResponseTemplate {
     @Autowired
     private GetMockFilesConfigurations getMockFilesConfigurations;
     
+    @Autowired
     private ResponseTemplateRepository repository;
     
     public void fromFiles() {
         
         List<ResponseTemplate> responseTemplates = getMockFilesConfigurations.mapToResponseTemplate();
         
-        //verifica se esta null
+        if(responseTemplates.isEmpty()) {
+            return;
+        }
         
-        //apaga todas as configurações atuais
+        repository.deleteAll();
         
-        //insere as "novas"
+        responseTemplates.forEach(repository::save);
     }
 }

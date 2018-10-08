@@ -1,5 +1,6 @@
 package com.github.loki.files;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConfigurationObject {
 
     private Integer port;
@@ -40,7 +42,8 @@ public class ConfigurationObject {
 
     @Getter
     @Setter
-    public class Entry {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Entry {
 
         private Request request;
 
@@ -49,7 +52,8 @@ public class ConfigurationObject {
 
     @Getter
     @Setter
-    public class Request {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Request {
 
         private String method;
 
@@ -58,7 +62,8 @@ public class ConfigurationObject {
 
     @Getter
     @Setter
-    public class Response {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Response {
 
         private Integer status;
 
@@ -67,7 +72,8 @@ public class ConfigurationObject {
 
     @Getter
     @Setter
-    public class Content {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Content {
 
         private String text;
 
