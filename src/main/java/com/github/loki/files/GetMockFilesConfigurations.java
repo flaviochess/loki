@@ -33,8 +33,8 @@ public class GetMockFilesConfigurations {
         
         if(!isValidDirectory(folder)) {
             
-            log.warn("Invalid paht configuration files: {}", pathConfigurationFiles);
-            return new ArrayList();
+            log.warn("Invalid path configuration files: {}", pathConfigurationFiles);
+            throw new MockFileException("Invalid path configuration files: " + pathConfigurationFiles);
         }
         
         ObjectMapper mapper = new ObjectMapper();
@@ -48,8 +48,7 @@ public class GetMockFilesConfigurations {
         } catch (IOException iOException) {
             
             log.error("Fail to find files in the folder {}", pathConfigurationFiles, iOException);
-            //throws runTimeException specific for files and get in the response handler?
-            return responseTemplates;
+            throw new MockFileException("Fail to find files in the folder " + pathConfigurationFiles);
         }
 
         for (Path configurationPath : configurationPaths) {
@@ -60,7 +59,7 @@ public class GetMockFilesConfigurations {
                 ConfigurationObject configurationObject = mapper.readValue(configurationPath.toFile(), ConfigurationObject.class);
                 
                 responseTemplates.addAll(convertTo(configurationObject));
-                log.info("File {} OK");
+                log.info("File {} OK", configurationPath.getFileName());
                 
             } catch (IOException iOException) {
                 

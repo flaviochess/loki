@@ -1,6 +1,7 @@
 package com.github.loki.files;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,6 @@ import lombok.Setter;
  *              "response": {
  *                  "status": 200,
  *                  "content": {
- *                      "mimeType": "application/json",
  *                      "text": "[{\"account\":{\"id\":709918,\"description\":\"Brasil Account\",\"personId\":28333,\"name\":\"Flavio Andrade\",\"model\":\"XPTO\",\"country\":\"BR\",\"enabled\":true},\"profile\":{\"id\":\"ADMIN\",\"name\":\"ADMIN\",\"standard\":true,\"order\":1}}]"
  *                  }
  *              }
@@ -38,7 +38,7 @@ public class ConfigurationObject {
 
     private String context;
 
-    private List<Entry> entries;
+    private List<Entry> entries = new ArrayList();
 
     @Getter
     @Setter
