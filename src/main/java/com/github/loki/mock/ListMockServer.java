@@ -4,7 +4,7 @@ import com.github.loki.response.ResponseTemplateRepository;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toMap;
 import org.eclipse.jetty.server.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,9 +28,12 @@ public class ListMockServer {
     
         Set<Integer> ports = repository.listAllPorts();
         
+        ports.addAll(poolServer.keySet());
+        
         return ports
                 .stream()
-                .collect(
-                        Collectors.toMap(Function.identity(), x -> poolServer.containsKey(x)? "UP" : "DOWN"));
+                .collect(toMap(
+                        Function.identity(), 
+                        x -> poolServer.containsKey(x)? "UP" : "DOWN"));
     }
 }
