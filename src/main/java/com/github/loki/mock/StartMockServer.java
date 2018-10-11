@@ -2,7 +2,10 @@ package com.github.loki.mock;
 
 import com.github.loki.handler.RequestMockHandler;
 import com.github.loki.response.GetResponseTemplate;
+import com.github.loki.response.ResponseTemplateRepository;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +22,36 @@ public class StartMockServer {
 
     @Autowired
     private GetResponseTemplate getResponseTemplate;
+    
+    @Autowired
+    private ResponseTemplateRepository repository;
 
     @Autowired
     @Qualifier("poolServer")
     private Map<Integer, Server> poolServer;
+
+    public void all() {
+
+        Set<Integer> errorsStartServer = new HashSet();
+        Set<Integer> ports = repository.listAllPorts();
+
+        for (Integer port : ports) {
+
+            try {
+
+                start(port);
+
+            } catch (MockServerException mse) {
+
+                errorsStartServer.add(port);
+            }
+        }
+
+        if (!errorsStartServer.isEmpty()) {
+
+            throw new MockServerException("An error occurred while starting servers " + errorsStartServer);
+        }
+    }
 
     public void start(Integer port) {
 
@@ -37,6 +66,7 @@ public class StartMockServer {
         
         try {
             
+            log.info("starting server {}", port);
             server.start();
             
         } catch (Exception ex) {

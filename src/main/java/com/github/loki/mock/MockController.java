@@ -29,21 +29,34 @@ public class MockController {
         this.stopMockServer = stopMockServer;
     }
     
+    @GetMapping("/status")
+    public Map<Integer, String> listStatusMockServers() {
+
+        return listMockServer.portStatus();
+    }
+
+    @PostMapping("/all/start")
+    public void startAllMockServers() {
+
+        startMockServer.all();
+    }
+
     @PostMapping("/port/{port}/start")
     public void startMockServer(@PathVariable Integer port) {
         
         startMockServer.start(port);
     }
     
-    @GetMapping("/status")
-    public Map<Integer, String> listStatusMockServers() {
-        
-        return listMockServer.portStatus();
+    @PostMapping("/all/stop")
+    public void stopAllMockServers() {
+
+        stopMockServer.all();
     }
     
     @PostMapping("/port/{port}/stop")
     public void stopMockServer(@PathVariable Integer port) {
-        
+
         stopMockServer.fromPort(port);
     }
+
 }
