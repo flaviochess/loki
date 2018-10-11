@@ -5,7 +5,6 @@
 * Docker -> docker file e registar a imagem no docker hub
 * Subir a versão do projeto
 * Setar a classe main?!
-* Modificar o SQL do H2 para manter apenas uma ou duas entradas de teste
 * Verificar o melhor padrão para Java Docs (inclusive o meu nome)
 * End-point para parar todos os serviços
 * Apagar este arquivo
