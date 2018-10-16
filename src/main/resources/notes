@@ -1,6 +1,5 @@
 * Verificar e remover comentários
-* Criar um README, CONTRIBUTING, CODE_OF_CONDUCT (se possível em inglês também)
-* Criar um arquivo de contribuição
+* Criar um README, CONTRIBUTING (se possível em inglês também)
 * Tentar criar testes unitários
 * Docker -> docker file e registar a imagem no docker hub
 * Subir a versão do projeto
