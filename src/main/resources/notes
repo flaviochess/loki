@@ -1,4 +1,5 @@
 * Verificar e remover comentários
+* Garantir que os wildcards tenha preferencia sobre os asterisco
 * Criar um README, CONTRIBUTING (se possível em inglês também)
 * Tentar criar testes unitários
 * Docker -> docker file e registar a imagem no docker hub
